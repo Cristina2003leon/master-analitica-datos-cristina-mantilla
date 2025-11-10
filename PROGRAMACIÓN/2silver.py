@@ -3,10 +3,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+import os
 
 #1.Empezamos leyendo el archivo dataset ya limpio, SILVER
-df = pd.read_csv("mammo_input_extensive.csv")
+df = pd.read_csv("DATOS/2BRONZE/mammo_output_limpio.csv")
 
 
 print("Columnas encontradas en el archivo:")
@@ -94,9 +94,14 @@ def metodo_dance(row):
 df["Dg_mGy"] = df.apply(metodo_dance, axis=1)# axis para aplicarlo sobre las filas
 
 #7.Guardamos los resultados
-df.to_csv("mammo_output_dance.csv", index=False)# con index false evitamos que guarde el índice
+
+carpeta_silver= "DATOS/3SILVER"
+
+# Guardar el DataFrame en 3SILVER
+ruta_salida = os.path.join(carpeta_silver, "mammo_output__dance.csv")
+df.to_csv(ruta_salida, index=False)# con index false evitamos que guarde el índice
 print("Cálculo completado")
-print("Archivo guardado: mammo_output_dance.csv")
+print(f"Archivo calculado generado: {ruta_salida}")
 
 #8.Mostramos la dosis media
 print(f"Dosis glandular media promedio: {df['Dg_mGy'].mean():.3f} mGy")#1º f empleada para insertar los valores en la frase

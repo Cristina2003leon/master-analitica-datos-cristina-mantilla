@@ -1,10 +1,10 @@
 
 import pandas as pd
 from datetime import datetime
-
+import os
 #BRONZE
 
-df_bronze = pd.read_csv("mammo_input_extensive_cristina.csv")
+df_bronze = pd.read_csv('DATOS/1CRUDO/mammo_input_extensive_cristina.csv')
 print(f"Datos : {df_bronze.shape}")
 
 #SILVER
@@ -30,6 +30,10 @@ df_silver['Projection'].fillna( df_silver['Projection'].fillna("DESCONOCIDO"))
 
 
 # 4. Valores lógicos
+
+df_silver = df_silver[df_silver["AnodeFilter"].notna()]  # elimina NaN
+df_silver = df_silver[df_silver["AnodeFilter"].str.upper() != "DESCONOCIDO"]
+
 def comprobar_rango_kvp(kvp: float):
     if kvp > 20 or kvp <= 40:
         return kvp
@@ -71,15 +75,17 @@ df_silver['KermaAir_mGy'] = df_silver['KermaAir_mGy'].apply(comprobar_rango_Kerm
 df_silver['Compression_N'] = df_silver['Compression_N'].apply(comprobar_rango_KermaAir_mGy)
 
 
-
-
 print(f"Datos tras limpieza (silver): {df_silver.shape}")
 print(df_silver.head())
 print(df_silver.info())
 
 #EXPORTAR
-df_silver.to_csv("mammo_output_limpio.csv")
-print("Archivo limpio generado: mammo_output_limpio.csv")
+carpeta_bronze = "DATOS/2BRONZE"
+
+# Guardar el DataFrame en 2BRONZE
+ruta_salida = os.path.join(carpeta_bronze, "mammo_output_limpio.csv")
+df_silver.to_csv(ruta_salida, index=False)
+
+print(f"Archivo limpio generado: {ruta_salida}")
 
 
- 
