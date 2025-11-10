@@ -81,6 +81,7 @@ print(df_silver.info())
 
 #EXPORTAR
 carpeta_bronze = "DATOS/2BRONZE"
+os.makedirs(carpeta_bronze, exist_ok=True)
 
 # Guardar el DataFrame en 2BRONZE
 ruta_salida = os.path.join(carpeta_bronze, "mammo_output_limpio.csv")

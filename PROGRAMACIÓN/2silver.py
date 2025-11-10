@@ -96,6 +96,7 @@ df["Dg_mGy"] = df.apply(metodo_dance, axis=1)# axis para aplicarlo sobre las fil
 #7.Guardamos los resultados
 
 carpeta_silver= "DATOS/3SILVER"
+os.makedirs(carpeta_silver, exist_ok=True)
 
 # Guardar el DataFrame en 3SILVER
 ruta_salida = os.path.join(carpeta_silver, "mammo_output__dance.csv")

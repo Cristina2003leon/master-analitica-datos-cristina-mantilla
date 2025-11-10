@@ -36,6 +36,7 @@ plt.show()
 
 ruta_salida = "DATOS/4GOLD/mammocalculadoteorico.csv"
 
+
 # Crear carpeta si no existe
 parent = os.path.dirname(ruta_salida)  # esto obtiene DATOS/4GOLD/mammocalculado
 if not os.path.exists(parent):
