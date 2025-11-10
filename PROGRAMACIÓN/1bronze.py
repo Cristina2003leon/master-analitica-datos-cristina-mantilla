@@ -2,21 +2,21 @@
 import pandas as pd
 from datetime import datetime
 import os
-#BRONZE
+
+#1.Empezamos leyendo el archivo dataset
 
 df_bronze = pd.read_csv('DATOS/1CRUDO/mammo_input_extensive_cristina.csv')
 print(f"Datos : {df_bronze.shape}")
 
-#SILVER
-# 1. Eliminamos las filas completamente vacías
+#2. Eliminamos las filas completamente vacías
 print(f"Filas antes de eliminar nulos: {df_bronze.count()}")
 df_silver = df_bronze.dropna(how="all")
 print(f"Filas despues de eliminar nulos: {df_silver.count()}")
 
-# 2.Eliminamos los duplicados
+#3.Eliminamos los duplicados
 df_silver = df_silver.drop_duplicates()
 
-# 3. Corregimos los nulos
+#4. Corregimos los nulos
 df_silver['AnodeFilter'] = df_silver['AnodeFilter'].fillna("DESCONOCIDO")  
 df_silver['kVp'].fillna( df_silver['kVp'].median())
 df_silver['PatientID'].fillna( df_silver['PatientID'].fillna("DESCONOCIDO"))
@@ -29,7 +29,7 @@ df_silver['Compression_N'].fillna( df_silver['Compression_N'].median())
 df_silver['Projection'].fillna( df_silver['Projection'].fillna("DESCONOCIDO"))
 
 
-# 4. Valores lógicos
+#5. Valores lógicos
 
 df_silver = df_silver[df_silver["AnodeFilter"].notna()]  # elimina NaN
 df_silver = df_silver[df_silver["AnodeFilter"].str.upper() != "DESCONOCIDO"]
@@ -41,7 +41,7 @@ def comprobar_rango_kvp(kvp: float):
         return None
     
 def comprobar_rango_Examdate(examdate):
-    if str(examdate) >= "2010-01-01" or str(examdate) <= str(datetime.now().date()):
+    if str(examdate) >= "2010-01-01" or str(examdate) <= str(datetime.now().date()):#extrae solo la parte de la fecha y lo convierte en str
             return examdate
     else:
             return None
@@ -79,11 +79,10 @@ print(f"Datos tras limpieza (silver): {df_silver.shape}")
 print(df_silver.head())
 print(df_silver.info())
 
-#EXPORTAR
+#6.Guardamos los resultados
 carpeta_bronze = "DATOS/2BRONZE"
 os.makedirs(carpeta_bronze, exist_ok=True)
 
-# Guardar el DataFrame en 2BRONZE
 ruta_salida = os.path.join(carpeta_bronze, "mammo_output_limpio.csv")
 df_silver.to_csv(ruta_salida, index=False)
 

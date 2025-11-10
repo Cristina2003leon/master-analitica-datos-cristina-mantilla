@@ -5,14 +5,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 
-#1.Empezamos leyendo el archivo dataset ya limpio, SILVER
+#1.Empezamos leyendo el archivo dataset ya limpio
 df = pd.read_csv("DATOS/2BRONZE/mammo_output_limpio.csv")
 
 
 print("Columnas encontradas en el archivo:")
 print(df.columns.tolist())
-
-
 
 
 #2.Definimos la función que simula el método de cálculo "Dance"
@@ -36,7 +34,6 @@ def metodo_dance(row):
         raise KeyError("Falta una columna necesaria en el CSV: {i}")
 
     #3.Datos teóricos que se pueden encontrar en Internet para este método (g, c, s)
- 
     g_valores = {
         #mirar si esto esta bien expresado así
         #argumento de la izq se llama clave
@@ -56,7 +53,6 @@ def metodo_dance(row):
     }
 
     #4.Realizamos interpolaciones para no limitarnos únicamente a cálculos con los valores aportados
-    
     #Calcular el valor aproximado de una magnitud en un intervalo cuando se conocen algunos de los valores que
     #toma a uno y otro lado de dicho intervalo
     def interp(tabla, clave, valor):
@@ -93,12 +89,12 @@ def metodo_dance(row):
 #6.Aplicamos el método a todo el csv
 df["Dg_mGy"] = df.apply(metodo_dance, axis=1)# axis para aplicarlo sobre las filas
 
-#7.Guardamos los resultados
 
+#7.Guardamos los resultados
 carpeta_silver= "DATOS/3SILVER"
 os.makedirs(carpeta_silver, exist_ok=True)
 
-# Guardar el DataFrame en 3SILVER
+
 ruta_salida = os.path.join(carpeta_silver, "mammo_output__dance.csv")
 df.to_csv(ruta_salida, index=False)# con index false evitamos que guarde el índice
 print("Cálculo completado")
