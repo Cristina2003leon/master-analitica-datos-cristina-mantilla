@@ -15,7 +15,7 @@ print(df.columns.tolist())
 
 
 
-#3.Definimos la función que simula el método de cálculo "Dance"
+#2.Definimos la función que simula el método de cálculo "Dance"
 def metodo_dance(row):
     """
     Calcula la dosis glandular media Dg usando el método de Dance.
@@ -35,7 +35,7 @@ def metodo_dance(row):
     except KeyError as i:
         raise KeyError("Falta una columna necesaria en el CSV: {i}")
 
-    #4.Datos teóricos que se pueden encontrar en Internet para este método (g, c, s)
+    #3.Datos teóricos que se pueden encontrar en Internet para este método (g, c, s)
  
     g_valores = {
         #mirar si esto esta bien expresado así
@@ -55,7 +55,7 @@ def metodo_dance(row):
         "Mo/Mo": 1.00, "Mo/Rh": 1.02, "Rh/Rh": 1.03, "W/Rh": 1.04, "W/Ag": 1.05
     }
 
-    #5.Realizamos interpolaciones para no limitarnos únicamente a cálculos con los valores aportados
+    #4.Realizamos interpolaciones para no limitarnos únicamente a cálculos con los valores aportados
     
     #Calcular el valor aproximado de una magnitud en un intervalo cuando se conocen algunos de los valores que
     #toma a uno y otro lado de dicho intervalo
@@ -85,20 +85,20 @@ def metodo_dance(row):
 
 
 
-    #6.Hacemos el cálculo final
+    #5.Hacemos el cálculo final
     Dg = k * g * c * s
     return Dg
 
 
-#7.Aplicamos el método a todo el csv
+#6.Aplicamos el método a todo el csv
 df["Dg_mGy"] = df.apply(metodo_dance, axis=1)# axis para aplicarlo sobre las filas
 
-#8.Guardamos los resultados
+#7.Guardamos los resultados
 df.to_csv("mammo_output_dance.csv", index=False)# con index false evitamos que guarde el índice
 print("Cálculo completado")
 print("Archivo guardado: mammo_output_dance.csv")
 
-#9.Mostramos la dosis media
+#8.Mostramos la dosis media
 print(f"Dosis glandular media promedio: {df['Dg_mGy'].mean():.3f} mGy")#1º f empleada para insertar los valores en la frase
 #2º f empleada para elegir el número de decimales
 
@@ -107,7 +107,7 @@ print(f"Dosis glandular media promedio: {df['Dg_mGy'].mean():.3f} mGy")#1º f em
 
 
 
-#10.Realizamos las gráficas, voy a emplear matplotlib
+#9.Realizamos las gráficas, voy a emplear matplotlib
 
 # Activar estilo de Seaborn
 sns.set(style="whitegrid")
@@ -131,7 +131,7 @@ plt.tight_layout()
 plt.show()
 
 #Gráfico 3: Dosis media por tipo de ánodo/filtro
-plt.figure(figsize=(8, 6)
+plt.figure(figsize=(8, 6))
 sns.barplot(
     data=df, 
     x="AnodeFilter", 
