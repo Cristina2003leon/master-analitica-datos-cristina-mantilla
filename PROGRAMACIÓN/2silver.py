@@ -90,29 +90,7 @@ def metodo_dance(row):
 df["Dg_mGy"] = df.apply(metodo_dance, axis=1)# axis para aplicarlo sobre las filas
 
 
-#7.Guardamos los resultados
-carpeta_silver= "DATOS/3SILVER"
-os.makedirs(carpeta_silver, exist_ok=True)
-
-
-ruta_salida = os.path.join(carpeta_silver, "mammo_output__dance.csv")
-df.to_csv(ruta_salida, index=False)# con index false evitamos que guarde el índice
-print("Cálculo completado")
-print(f"Archivo calculado generado: {ruta_salida}")
-
-#8.Mostramos la dosis media
-print(f"Dosis glandular media promedio: {df['Dg_mGy'].mean():.3f} mGy")#1º f empleada para insertar los valores en la frase
-#2º f empleada para elegir el número de decimales
-
-
-
-
-
-
-#9.Realizamos las gráficas, voy a emplear matplotlib
-
-# Activar estilo de Seaborn
-sns.set(style="whitegrid")
+#9.Realizamos las gráficas
 
 #Gráfico 1: Dosis vs kVp
 plt.figure(figsize=(8, 5))
@@ -148,3 +126,32 @@ plt.xlabel("Tipo de ánodo/filtro")
 plt.ylabel("Dosis glandular media (mGy)")
 plt.tight_layout()
 plt.show()
+
+#Gráfico 4: Correlación de Pearson entre las variables numéricas
+
+variables_numericas = ["kVp", "Thickness_cm", "KermaAir_mGy", "Dg_mGy"]
+corr = df[variables_numericas].corr(method="pearson")#selecciona solo esas columnas del DataFrame y calcula la matriz de correlación
+
+print("Correlación de Pearson entre variables numéricas:")
+print(corr)
+
+plt.figure(figsize=(6, 4))
+sns.heatmap(corr, annot=True, cmap="coolwarm", linewidths=0.5)#mapa de color, annot escribe los números dentro de cada celda.
+plt.title("Matriz de correlación (Pearson)")
+plt.tight_layout()
+plt.show()
+
+#10.Guardamos los resultados
+carpeta_silver= "DATOS/3SILVER"
+os.makedirs(carpeta_silver, exist_ok=True)
+
+ruta_salida = os.path.join(carpeta_silver, "mammo_output__dance.csv")
+df.to_csv(ruta_salida, index=False)# con index false evitamos que guarde el índice
+print("Cálculo completado")
+print(f"Archivo calculado generado: {ruta_salida}")
+
+#11.Mostramos la dosis media
+print(f"Dosis glandular media promedio: {df['Dg_mGy'].mean():.3f} mGy")#1º f empleada para insertar los valores en la frase
+#2º f empleada para elegir el número de decimales
+
+

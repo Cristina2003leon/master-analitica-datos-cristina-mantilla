@@ -35,6 +35,20 @@ plt.tight_layout()
 plt.show()
 
 
+variables = ["Dosis_Silver_mGy", "Dosis_Gold_mGy"]
+
+#6.Matriz de correlación
+corr = merged[variables].corr(method="pearson")
+
+print("Correlación de Pearson entre Silver y Gold:")
+print(corr)
+
+plt.figure(figsize=(6, 4))
+sns.heatmap(corr, annot=True, cmap="coolwarm", linewidths=0.5)
+plt.title("Matriz de correlación (Pearson): Silver vs Gold")
+plt.tight_layout()
+plt.show()
+
 
 #7.Guardamos los resultados
 carpeta_gold= "DATOS/4GOLD"
